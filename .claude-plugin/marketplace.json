@@ -9,7 +9,7 @@
       "name": "plugin-tour",
       "source": "./",
       "description": "One command, one skill, one agent, one hook — the four component types, small enough to read end to end.",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }

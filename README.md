@@ -92,6 +92,24 @@ A plugin **cannot** ship:
 
 So the usual instinct — "I'll put my whole Claude setup in a plugin and install it on a new machine" — only ever covers half of it. The settings half needs a dotfile manager, or copy and paste. Know which half you are solving before you start.
 
+### Updating it is not automatic
+
+An installed plugin is cached by **version**: `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/`.
+
+Push a change without bumping `version` in `plugin.json` and the marketplace clone updates while every installed copy stays exactly as it was. Nothing errors. You edit, you push, you re-run the command, and you get the old behaviour — which looks like your change did nothing.
+
+So the release step is: bump `version` in **both** `plugin.json` and the marketplace entry, then
+
+```sh
+claude plugin validate .            # checks the two agree, among other things
+claude plugin marketplace update <marketplace>
+claude plugin update <plugin>@<marketplace>   # restart to apply
+```
+
+`claude plugin tag` will cut a `{name}--v{version}` git tag and refuse if the two manifests disagree.
+
+This is the honest cost of a plugin over a plain dotfile: a dotfile is whatever is on disk, whereas a plugin is a *released artifact* with a cache between you and it.
+
 ## One more trap, from the field
 
 If a dotfile manager writes your `~/.claude/settings.json`, decide deliberately whether `enabledPlugins` is managed from source.
