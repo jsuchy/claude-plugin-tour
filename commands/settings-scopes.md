@@ -2,6 +2,9 @@
 description: Show which Claude Code settings are in effect here and which file each one came from.
 argument-hint: "[optional: a setting key to focus on, e.g. model]"
 allowed-tools: Read, Bash(ls:*), Bash(cat:*), Bash(git rev-parse:*)
+# Without this, living in commands/ would NOT stop Claude invoking it on its own.
+# Directory is presentation; this line is the actual behaviour.
+disable-model-invocation: true
 ---
 
 ## Context

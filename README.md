@@ -24,19 +24,28 @@ Remove it with `claude plugin uninstall plugin-tour@jsuchy`.
 
 | Component | File | The point |
 |---|---|---|
-| Command | `commands/settings-scopes.md` | A command is **just a prompt in a Markdown file**. No code. `!`-prefixed lines run shell and inject the output; `$ARGUMENTS` carries what the user typed. |
+| Command | `commands/settings-scopes.md` | A command is **just a prompt in a Markdown file**. No code. `!`-prefixed lines run shell and inject the output; `$ARGUMENTS` carries what the user typed. Kept user-only by `disable-model-invocation`, not by living in `commands/`. |
 | Skill | `skills/hook-check/` | A skill is a prompt Claude **chooses** to load, on the strength of its `description`. It can bundle scripts and reference files that load only when needed. |
 | Agent | `agents/setup-reviewer.md` | An agent is a **separate context** with its own tool allowlist and model. Use one when you want work done without its intermediate output filling your session. |
 | Hook | `hooks/hooks.json` + `hooks/sentence-per-line.sh` | A hook is **deterministic**. It runs whether or not Claude feels like it, because the harness runs it, not the model. |
 
 ### Command vs. skill — the distinction people trip on
 
-Both are Markdown. The difference is *who decides*.
+There isn't one any more, and this is the single most useful thing in this repo.
 
-A **command** runs because the user typed `/settings-scopes`. It is always a deliberate act.
-A **skill** loads because Claude read its `description` and judged it relevant. You are writing for a reader who has to decide, which is why skill descriptions say when *not* to use them.
+**Commands have been merged into skills.** `commands/deploy.md` and `skills/deploy/SKILL.md` both create `/deploy` and behave the same way. Old `commands/` files keep working; skills are preferred for new work because they can bundle supporting files. `claude plugin details` reports this plugin as having **two skills**, counting the command as one — Anthropic's own commands-only plugin reports `Skills (3)` the same way. There is no "Commands" row to get.
 
-Worth knowing before someone catches you out: `claude plugin details` reports this plugin as having **two skills**, counting the command as one. Both do surface as `/name`, so the inventory is not wrong. The difference that matters is the one above — who decides to run it — not which directory it sits in.
+What survives is the part people actually mean by "command": *who is allowed to invoke it.* That is frontmatter, not a directory.
+
+| Frontmatter | You can invoke | Claude can invoke | Use for |
+|---|---|---|---|
+| (default) | yes | yes | most things |
+| `disable-model-invocation: true` | yes | **no** | anything with side effects — deploys, commits, sends |
+| `user-invocable: false` | **no** | yes | background knowledge Claude should have but nobody types |
+
+This repo gets that wrong on purpose once, then fixes it: `settings-scopes.md` lives in `commands/` **and** sets `disable-model-invocation: true`, because the directory alone would not have stopped Claude from running it unprompted.
+
+If you take one thing away: putting a risky workflow in `commands/` does not make it user-only. The frontmatter line does.
 
 Here is what that command reports for this plugin, which is also a useful thing to show people:
 
