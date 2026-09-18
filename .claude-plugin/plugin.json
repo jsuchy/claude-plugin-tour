@@ -1,0 +1,10 @@
+{
+  "name": "plugin-tour",
+  "displayName": "Plugin Tour",
+  "version": "0.1.0",
+  "description": "A deliberately small, readable Claude Code plugin: one command, one skill, one agent, one hook. Built to be read as a teaching artifact, not to be depended on.",
+  "author": { "name": "Jim Suchy", "url": "https://github.com/jsuchy" },
+  "repository": "https://github.com/jsuchy/claude-plugin-tour",
+  "license": "MIT",
+  "keywords": ["teaching", "example", "hooks", "skills", "agents"]
+}

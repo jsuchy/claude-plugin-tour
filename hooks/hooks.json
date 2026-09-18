@@ -1,0 +1,17 @@
+{
+  "description": "Plugin Tour: one advisory PostToolUse hook, so there is something real to read.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/sentence-per-line.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

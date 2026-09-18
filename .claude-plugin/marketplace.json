@@ -1,0 +1,15 @@
+{
+  "name": "jsuchy",
+  "owner": { "name": "Jim Suchy", "url": "https://github.com/jsuchy" },
+  "metadata": {
+    "description": "Jim Suchy's Claude Code plugins."
+  },
+  "plugins": [
+    {
+      "name": "plugin-tour",
+      "source": "./",
+      "description": "One command, one skill, one agent, one hook — the four component types, small enough to read end to end.",
+      "version": "0.1.0"
+    }
+  ]
+}
