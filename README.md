@@ -36,6 +36,20 @@ Both are Markdown. The difference is *who decides*.
 A **command** runs because the user typed `/settings-scopes`. It is always a deliberate act.
 A **skill** loads because Claude read its `description` and judged it relevant. You are writing for a reader who has to decide, which is why skill descriptions say when *not* to use them.
 
+Worth knowing before someone catches you out: `claude plugin details` reports this plugin as having **two skills**, counting the command as one. Both do surface as `/name`, so the inventory is not wrong. The difference that matters is the one above — who decides to run it — not which directory it sits in.
+
+Here is what that command reports for this plugin, which is also a useful thing to show people:
+
+```
+Skills (2)  hook-check, settings-scopes
+Agents (1)  setup-reviewer
+Hooks (1)   PostToolUse  (harness-only — no model context cost)
+
+Always-on:  ~318 tok   added to every session
+```
+
+Every plugin you enable spends context before you ask it anything. A hook costs nothing, because the harness runs it and the model never reads it. That asymmetry is worth designing around.
+
 ### Why the hook is advisory
 
 `hooks/sentence-per-line.sh` always exits 0 and returns `additionalContext` rather than blocking.
